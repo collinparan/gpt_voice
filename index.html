@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Speech to GPT</title>
+    <style>
+      #record-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        /* cursor: pointer; */
+        display: block;
+        border-radius: 5px;
+        font-size: 800%;
+        cursor: pointer;
+        align-content: center;
+        margin: 0 auto;
+      }
+
+      #record-btn.recording {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="record-btn">Speak</button>
+    <div>
+      <h2>Spoken Question</h2>
+      <div id="result"></div>
+    </div>
+    <div>
+      <h2>GPT Response</h2>
+      <div id="response"></div>
+    </div>
+    <script>
+      const recognition = new webkitSpeechRecognition();
+      const resultDiv = document.getElementById('result');
+      let speechResult = '';
+
+      recognition.lang = 'en-US';
+
+      document.getElementById('record-btn').addEventListener('click', () => {
+        if (recognition.continuous) {
+          recognition.stop();
+          document.getElementById('record-btn').innerHTML = 'Speak';
+          document.getElementById('record-btn').classList.remove('recording');
+          return;
+        }
+
+        recognition.start();
+        speechResult = '';
+        document.getElementById('record-btn').innerHTML = 'Recording...';
+        document.getElementById('record-btn').classList.add('recording');
+      });
+
+      recognition.onresult = (event) => {
+        speechResult += event.results[event.results.length - 1][0].transcript;
+        resultDiv.innerHTML = speechResult;
+      };
+
+      recognition.onend = async () => {
+        // Call GPT API to feed the question and get the response
+        const gptResponse = await callGPT(speechResult);
+
+        // Write the response to the screen
+        const responseDiv = document.getElementById('response');
+        responseDiv.innerHTML = gptResponse;
+
+        // Use text-to-speech to read the response
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(gptResponse);
+        synth.speak(utterance);
+
+        document.getElementById('record-btn').innerHTML = 'Speak';
+        document.getElementById('record-btn').classList.remove('recording');
+      };
+
+      async function callGPT(question) {
+        const GPT_URL = 'https://api.openai.com/v1/completions';
+        const API_KEY = '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';
+
+        const response = await fetch(GPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: "text-davinci-003",
+            prompt: question,
+            max_tokens: 256,
+            temperature: 0.1,
+            frequency_penalty: 2.1,
+            presence_penalty: 0
+
+          })
+        });
+
+        const data = await response.json();
+        return data.choices[0].text;
+      }
+    </script>
+  </body>
+</html>
+
