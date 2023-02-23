@@ -24,7 +24,7 @@
     </style>
   </head>
   <body>
-    <button id="record-btn">Speak</button>
+    <button id="record-btn">Record</button>
     <div>
       <h2>Spoken Question</h2>
       <div id="result"></div>
@@ -43,7 +43,7 @@
       document.getElementById('record-btn').addEventListener('click', () => {
         if (recognition.continuous) {
           recognition.stop();
-          document.getElementById('record-btn').innerHTML = 'Speak';
+          document.getElementById('record-btn').innerHTML = 'Record';
           document.getElementById('record-btn').classList.remove('recording');
           return;
         }
@@ -72,7 +72,7 @@
         const utterance = new SpeechSynthesisUtterance(gptResponse);
         synth.speak(utterance);
 
-        document.getElementById('record-btn').innerHTML = 'Speak';
+        document.getElementById('record-btn').innerHTML = 'Record';
         document.getElementById('record-btn').classList.remove('recording');
       };
 
