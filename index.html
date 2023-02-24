@@ -37,6 +37,9 @@
       const recognition = new webkitSpeechRecognition();
       const resultDiv = document.getElementById('result');
       let speechResult = '';
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const API_KEY = urlParams.get('api_key');
 
       recognition.lang = 'en-US';
 
@@ -78,7 +81,6 @@
 
       async function callGPT(question) {
         const GPT_URL = 'https://api.openai.com/v1/completions';
-        const API_KEY = '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';
 
         const response = await fetch(GPT_URL, {
           method: 'POST',
