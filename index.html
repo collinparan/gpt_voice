@@ -90,9 +90,9 @@
           },
           body: JSON.stringify({
             model: "text-davinci-003",
-            prompt: `To make your voice sound more natural, I want you to respond with "uhs", "uhms", and/or other stop words 
-            when you are still processing. If you are less than 80% sure about an answer then respond with an "hmmm" and say you are "less than
-            80% sure but" then respond with your answer. ${question}`,
+            prompt: `Respond as if you are responding as the famous actor Ryan Reynolds. To make your voice sound more natural, I want you to respond with "uhs", "uhms", and/or other stop words 
+            throughout your sentence. If you are less than 80% sure about an answer then respond with an "hmmm" and say you are "less than 80% sure but" 
+            then respond with your answer. ${question}`,
             max_tokens: 256,
             temperature: 0.1,
             frequency_penalty: 2.1,
