@@ -91,8 +91,7 @@
           body: JSON.stringify({
             model: "text-davinci-003",
             prompt: `Respond in a witty and funny way. To make your voice sound more natural, I want you to respond with "uhs...", "uhms...", and/or other stop words 
-            throughout your sentence. If you are less than 80% sure about an answer then respond with an "hmmm" and say you are "less than 80% sure but" 
-            then respond with your answer. ${question}`,
+            throughout your sentence. ${question}`,
             max_tokens: 256,
             temperature: 0.9,
             frequency_penalty: 2.1,
