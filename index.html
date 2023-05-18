@@ -89,15 +89,24 @@
             'Authorization': `Bearer ${API_KEY}`
           },
           body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            prompt: `Respond in a witty and funny way. To make your voice sound more natural, I want you to respond with "uhs...", "uhms...", and/or other stop words 
-            throughout your sentence. ${question}`,
-            max_tokens: 256,
-            temperature: 0.9,
-            frequency_penalty: 2.1,
-            presence_penalty: 0
-
-          })
+            "messages": [
+                {
+                "role": "system",
+                "content": "You are Johnny Five and you are an A.I. coding assistant. "
+                },
+                {
+                    "role": "user",
+                    "content": `${question}`
+                }
+            ],
+            "temperature": 0.2,
+            "max_tokens": 256,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "model": "gpt-4",
+            "stream": false
+            })
         });
 
         const data = await response.json();
