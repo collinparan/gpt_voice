@@ -89,7 +89,7 @@
             'Authorization': `Bearer ${API_KEY}`
           },
           body: JSON.stringify({
-            model: "text-davinci-003",
+            model: "gpt-3.5-turbo",
             prompt: `Respond in a witty and funny way. To make your voice sound more natural, I want you to respond with "uhs...", "uhms...", and/or other stop words 
             throughout your sentence. ${question}`,
             max_tokens: 256,
